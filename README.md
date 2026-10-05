@@ -1,72 +1,30 @@
-# CONOMIC · Beta cerrada
+# CONOMIC · Página de descarga
 
-Página de bienvenida y descarga de la beta cerrada de CONOMIC, pensada para abrirse desde el celular.
+Sitio estático adaptable a celulares y computadores, sin dependencias ni compilación.
 
-La página está contenida en **`index.html`**: incluye el CSS, JavaScript, las fuentes Fredoka Bold y Nunito Bold, y la mascota SVG. Se puede abrir sin instalar dependencias ni ejecutar un proceso de compilación.
+## Archivos
 
-## Estructura
+- index.html: contenido y estructura.
+- assets/css/styles.css: diseño, estilos adaptables y fuentes incrustadas.
+- assets/js/config.js: enlaces y modalidad de acceso.
+- assets/js/app.js: descarga, disponibilidad y validación de beta.
+- assets/source/mico.svg: mascota original.
+- licenses/: licencias de las fuentes.
 
-```text
-.
-├── index.html                  # Página completa
-├── README.md                   # Guía del proyecto
-├── .gitignore                  # Exclusiones de Git
-├── .gitattributes              # Finales de línea compatibles
-├── assets/
-│   └── source/
-│       └── mico.svg            # SVG original de la mascota
-├── docs/
-│   └── configuracion.md        # Enlaces, disponibilidad y servidor
-└── licenses/
-    ├── fredoka-ofl.txt         # Licencia de Fredoka
-    └── nunito-ofl.txt          # Licencia de Nunito
-```
+## Configurar la descarga
 
-## Abrir y editar
+Edita assets/js/config.js. El modo public permite descargar sin código. Configura googlePlayUrl con el enlace HTTPS oficial y cambia googlePlayAvailable a true cuando la aplicación esté disponible. Sin enlace válido, la descarga permanece deshabilitada.
 
-Abre `index.html` en el navegador para revisar el diseño. Edita ese mismo archivo para modificar la página.
+Para una beta con invitación, usa accessMode: "beta" y configura un servidor de validación. Consulta docs/configuracion.md.
 
-Si tienes Python instalado, puedes servir la carpeta localmente:
+## Revisar y publicar
 
-```sh
-python -m http.server 4173 --bind 127.0.0.1
-```
+Abre index.html en un navegador para revisar la página. Para que cualquier persona pueda acceder, publica toda la carpeta del sitio en un alojamiento estático con HTTPS, por ejemplo GitHub Pages. Hacer público el repositorio no publica automáticamente la página.
 
-Luego abre `http://127.0.0.1:4173`. Detén el servidor con `Ctrl+C`.
+En GitHub Pages, configura Settings > Pages > Deploy from a branch > main > /(root). La dirección esperada será https://conomic-app.github.io/Pagina-web-CONOMIC/ una vez habilitado el servicio. No se ha configurado ni verificado la publicación desde este proyecto.
 
-El SVG de `assets/source/mico.svg` conserva el archivo original. La página usa una copia incrustada: modificar el original no cambia automáticamente la mascota que se muestra en `index.html`.
+Conserva las rutas relativas y publica también assets/. No necesitas un servidor para la descarga pública desde Google Play; la modalidad beta sí requiere un backend.
 
-## Configuración antes de habilitar la descarga
+## APK de Android
 
-En el bloque **`CONFIG`** de `index.html` se configuran:
-
-- La disponibilidad de Play Store, actualmente marcada como **Próximamente**.
-- El endpoint real de validación del código de acceso.
-- El enlace de Play Store y el formulario de experiencia.
-
-Consulta [la guía de configuración](docs/configuracion.md) para el contrato del servidor y los valores que debes reemplazar. El correo de soporte es `claudio.villagran.quiroz@conomic.app`.
-
-## Repositorio en GitHub
-
-El proyecto utiliza el repositorio privado [Conomic-app/Pagina-web-CONOMIC](https://github.com/Conomic-app/Pagina-web-CONOMIC), con la rama `main` y el remoto `origin` asociado a esa dirección.
-
-Para subir futuras actualizaciones, ejecuta estos comandos desde esta carpeta:
-
-```sh
-git add .
-git commit -m "Actualizar página de CONOMIC"
-git push
-```
-
-Si Git solicita tu identidad para el primer commit, configura tu nombre y correo en este repositorio:
-
-```sh
-git config user.name "TU NOMBRE"
-git config user.email "TU CORREO DE GITHUB"
-```
-
-Después vuelve a ejecutar el comando de commit. Revisa `git status` antes de subir cambios. En la primera subida, utiliza `git push -u origin main` para asociar la rama local con la de GitHub.
-
-## Tipografías
-
-Fredoka y Nunito se distribuyen bajo SIL Open Font License 1.1. Sus licencias completas se conservan en `licenses/` y dentro de `index.html` para acompañar también al HTML cuando se distribuye por separado.
+La descarga actual utiliza assets/downloads/conomic-release.apk (80,5 MB). El botón es un enlace directo y funciona sin JavaScript. Publica también esta carpeta. Para actualizar la app, reemplaza el APK, comprueba su tamaño y actualiza el texto de index.html. apkUrl en assets/js/config.js debe coincidir con el enlace del HTML.

@@ -1,6 +1,10 @@
 # Configuración de la página
 
-La página sigue siendo un único archivo `index.html`. Todas las opciones de integración están en el objeto `CONFIG`, al comienzo del JavaScript incluido en ese archivo.
+La estructura está en `index.html`, el diseño en `assets/css/styles.css` y el comportamiento en `assets/js/app.js`. Edita las opciones públicas en `assets/js/config.js`. No guardes secretos en estos archivos.
+
+## Descarga pública
+
+El modo predeterminado es `accessMode: "public"`: no solicita códigos. Configura `googlePlayUrl` con el enlace HTTPS oficial y activa `googlePlayAvailable`. Hasta entonces se muestra «Descarga próximamente». Para conservar las invitaciones, cambia a `accessMode: "beta"` y configura el servidor descrito abajo.
 
 ## Estado actual
 
@@ -8,12 +12,12 @@ La página sigue siendo un único archivo `index.html`. Todas las opciones de in
 | --- | --- | --- |
 | `googlePlayAvailable` | `false` | Muestra «Próximamente» y mantiene la descarga bloqueada. |
 | `validationEndpoint` | `""` | Endpoint que valida el código en un servidor. |
-| `googlePlayUrl` | `"REEMPLAZAR_URL_GOOGLE_PLAY"` | Enlace de Play Store si se usa una URL fija. |
-| `feedbackUrl` | `"REEMPLAZAR_URL_FORMULARIO"` | Formulario «Cuéntanos tu experiencia». |
+| `googlePlayUrl` | `""` | Enlace de Play Store si se usa una URL fija. |
+| `feedbackUrl` | `""` | Formulario «Cuéntanos tu experiencia». |
 
 Mientras `googlePlayAvailable` sea `false`, ingresar un código o pulsar Play Store muestra el aviso de próxima disponibilidad. No se envía el código al servidor ni se habilita la descarga.
 
-## Habilitar Play Store
+## Habilitar Play Store en modalidad beta
 
 Cuando la descarga esté disponible:
 
@@ -67,7 +71,7 @@ Un alojamiento de archivos estáticos sirve el HTML, pero no implementa ese endp
 
 ## Formulario y correo
 
-Reemplaza `feedbackUrl` por la URL HTTPS del formulario real. Mientras conserve su marcador, la página informa que el formulario aún no está disponible y ofrece el correo como alternativa.
+Reemplaza `feedbackUrl` por la URL HTTPS del formulario real. Mientras esté vacío, el botón abre el correo de soporte para compartir comentarios.
 
 El texto del correo y su enlace `mailto:` se encuentran en el bloque de ayuda:
 
@@ -83,4 +87,8 @@ claudio.villagran.quiroz@conomic.app
 - Los gradientes y fondos suaves se derivan de esos colores; el texto y los fondos también utilizan neutros.
 - Fredoka Bold y Nunito Bold están incrustadas como WOFF2, junto con sus licencias.
 - `assets/source/mico.svg` conserva la mascota original. El SVG que muestra la página está incrustado en el HTML.
-- CSS y JavaScript se editan directamente en `index.html`.
+- CSS y JavaScript se editan en sus archivos dentro de `assets/`.
+
+## Descarga directa de APK
+
+La modalidad pública utiliza apkUrl: "assets/downloads/conomic-release.apk". El enlace está también en index.html para funcionar sin JavaScript. El formulario de códigos y Play Store quedan ocultos mientras exista un APK configurado. El archivo debe publicarse junto con el sitio; el repositorio local no es todavía una web pública. No se ha comprobado la instalación ni la firma en un dispositivo Android.
