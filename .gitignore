@@ -1,0 +1,32 @@
+# Archivos del sistema y del editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+
+# Configuración local y credenciales
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.codex/
+.agents/
+
+# Archivos temporales, registros y respaldos
+*.log
+*.tmp
+*.bak
+*.orig
+~$*
+.tmp/
+.cache/
+
+# Dependencias y entornos locales, si se agregan herramientas
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+coverage/
