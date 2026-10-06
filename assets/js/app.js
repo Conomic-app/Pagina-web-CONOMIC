@@ -51,9 +51,6 @@
       document.querySelector(".code-panel").hidden = true;
       codeInput.required = false;
       codeInput.disabled = true;
-      document.querySelector(".beta-badge").textContent = "Descarga la app";
-      document.getElementById("welcome-title").textContent = "Bienvenido a CONOMIC";
-      document.querySelector(".welcome-text").textContent = "Descarga CONOMIC desde el enlace oficial. Si necesitas ayuda para instalarla, escríbenos.";
       const apkSection = document.getElementById("apk-download");
       const apkLink = document.getElementById("apk-link");
       // Las rutas relativas conservan el subdirectorio del sitio (por ejemplo GitHub Pages).
@@ -94,9 +91,8 @@
       document.querySelector(".stores").hidden = false;
       storesLabel.hidden = false;
       document.querySelector(".code-panel").hidden = false;
-      document.querySelector(".beta-badge").textContent = "Beta cerrada";
-      document.getElementById("welcome-title").textContent = "Gracias por confiar en CONOMIC";
-      document.querySelector(".welcome-text").textContent = "Ingresa el código de tu invitación para acceder a la beta de CONOMIC.";
+      document.querySelector(".download-intro").textContent = "Ingresa el código de tu invitación para acceder a la beta.";
+      document.querySelector(".download-intro").hidden = false;
       downloadLabel.textContent = "Descargar CONOMIC";
     codeInput.addEventListener("input", () => {
       lockStores();

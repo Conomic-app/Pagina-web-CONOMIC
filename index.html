@@ -4,11 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#fddf21">
-  <meta name="description" content="Descarga CONOMIC desde su enlace oficial y encuentra ayuda para instalar la aplicación.">
-  <title>CONOMIC · Descarga la aplicación</title>
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <meta name="description" content="Prueba la beta de CONOMIC para Android. Descarga la app, consulta cómo instalarla y comparte tu experiencia.">
+  <title>CONOMIC · Prueba la beta para Android</title>
+  <link rel="preload" href="assets/fonts/fredoka-bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/nunito-bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/styles.css?v=714a1f2222">
 </head>
 <body>
+  <a class="skip-link" href="#download-area">Ir a la descarga</a>
   <!-- Patrón decorativo tenue, en la misma paleta del mockup. -->
   <svg class="page-pattern" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
     <defs>
@@ -34,10 +37,10 @@
   <main class="page">
     <header class="brand-header">
       <span class="wordmark">CONOMIC</span>
-      <span class="beta-badge">Descarga la app</span>
+      <span class="beta-badge">Beta cerrada</span>
     </header>
 
-    <div class="mascot" role="img" aria-label="Mico, el chanchito amarillo de CONOMIC, te da la bienvenida con ojos brillantes">
+    <div class="mascot" role="img" aria-label="Mico, la mascota de CONOMIC, te da la bienvenida">
       <!-- SVG original de Mico. Solo se omite su fondo blanco y se ajusta el encuadre. -->
       <svg class="mico" viewBox="20 46 246 160" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
         <path d="M145.159 46C210.356 46 255.199 94.6572 255.199 149.675C255.392 170.608 250.992 188.147 243.063 202.47H46.8232C38.3521 187.935 33.5293 170.598 33.5293 150.947C33.5293 95.6116 79.9622 46.0001 145.159 46Z" fill="#FDDF21"/>
@@ -74,16 +77,26 @@
       </svg>
     </div>
 
-    <section class="welcome-card" aria-labelledby="welcome-title">
-      <h1 id="welcome-title">Bienvenido a <span class="title-brand">CONOMIC</span></h1>
-      <p class="welcome-text">Descarga CONOMIC desde el enlace oficial. Si necesitas ayuda para instalarla, escríbenos.</p>
+    <div class="hero">
+    <section class="introduction" aria-labelledby="welcome-title">
+    <div class="welcome-copy">
+      <h1 id="welcome-title">Bienvenido a la beta de <span class="title-brand">CONOMIC</span></h1>
+      <p class="welcome-text">Prueba CONOMIC y ayúdanos a mejorar con tu experiencia.</p>
+    </div>
+    </section>
+
+    <section class="welcome-card" id="download-area" tabindex="-1" aria-label="Descarga de la beta de CONOMIC">
+      <p class="download-intro" hidden></p>
 
       <section id="apk-download" aria-label="Descarga para Android">
-        <a class="download-button apk-button" id="apk-link" href="assets/downloads/conomic-release.apk" download="conomic-release.apk">
-          <span aria-hidden="true">↓</span>
-          <span>Descargar CONOMIC para Android</span>
+        <a class="download-button apk-button" id="apk-link" href="assets/downloads/conomic-release.apk" download="conomic-release.apk" aria-describedby="apk-details apk-compatibility">
+          <svg class="download-icon" viewBox="0 0 32 34" fill="none" aria-hidden="true">
+            <path d="M16 5v15m-6-6 6 6 6-6M5 24v2a4 4 0 0 0 4 4h14a4 4 0 0 0 4-4v-2" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Descargar para Android</span>
         </a>
-        <p class="apk-details">Archivo APK · 80,5 MB · Solo para Android</p>
+        <p class="apk-details" id="apk-details">APK · 80,5 MB · Versión 1.0.0</p>
+        <p class="apk-compatibility" id="apk-compatibility">Android 7.0 o superior. No compatible con iPhone o iPad.</p>
         <details class="installation-guide">
           <summary>Cómo instalar CONOMIC</summary>
           <ol>
@@ -94,7 +107,7 @@
           </ol>
           <p>Los nombres de las opciones pueden variar según el teléfono. Si aparece un bloqueo de seguridad, escríbenos indicando el mensaje.</p>
         </details>
-        <p class="apk-details">Este APK no se puede instalar en iPhone o iPad.</p>
+        <p class="installation-help">¿Necesitas ayuda? <a href="#help-title">Contáctanos</a></p>
       </section>
 
       <form class="access-form" id="access-form" hidden method="post" novalidate>
@@ -134,23 +147,32 @@
         </a>
       </div>
 
+      <p class="beta-note">Estamos en etapa de pruebas. Algunas funciones pueden cambiar mientras seguimos mejorando.</p>
+    </section>
+    </div>
+
+    <footer class="support-section">
+      <div class="feedback-block">
+      <h2>Tu opinión cuenta</h2>
+      <p>Cada comentario nos ayuda a construir una mejor app.</p>
       <a class="feedback-link" id="feedback-link" href="mailto:claudio.villagran.quiroz@conomic.app" target="_blank" rel="noopener noreferrer">
         <svg class="feedback-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M28 15a12 12 0 0 1-16.7 11L3 29l2.6-8.2A12 12 0 1 1 28 15Z" stroke="currentColor" stroke-width="2.7" stroke-linejoin="round"/></svg>
         <span class="button-label">Cuéntanos tu experiencia</span>
         <svg class="chevron" viewBox="0 0 12 22" fill="none" aria-hidden="true"><path d="m3 3 7 8-7 8" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
+      </div>
 
       <aside class="help" aria-labelledby="help-title">
         <svg class="mail-icon" viewBox="0 0 28 26" fill="none" aria-hidden="true"><rect x="2" y="3" width="24" height="20" rx="1.5" stroke="currentColor" stroke-width="2.5"/><path d="m3 5 11 9L25 5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <div class="help-copy">
-          <p class="help-title" id="help-title">¿Tienes alguna duda?</p>
+          <h2 class="help-title" id="help-title" tabindex="-1">Estamos para ayudarte</h2>
           <p class="help-text">Escríbenos a <a class="support-email" href="mailto:claudio.villagran.quiroz@conomic.app">claudio.villagran.quiroz<wbr><span class="email-domain">@conomic.app</span></a></p>
         </div>
       </aside>
-    </section>
+    </footer>
   </main>
 
-  <script src="assets/js/config.js" defer></script>
-  <script src="assets/js/app.js" defer></script>
+  <script src="assets/js/config.js?v=8f3d92a73f" defer></script>
+  <script src="assets/js/app.js?v=9932e68f01" defer></script>
 </body>
 </html>

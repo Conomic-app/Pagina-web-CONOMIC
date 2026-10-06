@@ -4,18 +4,19 @@ La estructura está en `index.html`, el diseño en `assets/css/styles.css` y el 
 
 ## Descarga pública
 
-El modo predeterminado es `accessMode: "public"`: no solicita códigos. Configura `googlePlayUrl` con el enlace HTTPS oficial y activa `googlePlayAvailable`. Hasta entonces se muestra «Descarga próximamente». Para conservar las invitaciones, cambia a `accessMode: "beta"` y configura el servidor descrito abajo.
+El modo predeterminado es `accessMode: "public"`: no solicita códigos y ofrece el APK indicado en `apkUrl`. Si no hay APK configurado, se utiliza el flujo de Play Store: configura `googlePlayUrl` con el enlace HTTPS oficial y activa `googlePlayAvailable`. Para usar invitaciones, cambia a `accessMode: "beta"` y configura el servidor descrito abajo.
 
 ## Estado actual
 
 | Opción | Valor actual | Uso |
 | --- | --- | --- |
-| `googlePlayAvailable` | `false` | Muestra «Próximamente» y mantiene la descarga bloqueada. |
+| `apkUrl` | `"assets/downloads/conomic-release.apk"` | Descarga directa en modalidad pública. |
+| `googlePlayAvailable` | `false` | Deshabilita Play Store; no bloquea el APK público. |
 | `validationEndpoint` | `""` | Endpoint que valida el código en un servidor. |
 | `googlePlayUrl` | `""` | Enlace de Play Store si se usa una URL fija. |
 | `feedbackUrl` | `""` | Formulario «Cuéntanos tu experiencia». |
 
-Mientras `googlePlayAvailable` sea `false`, ingresar un código o pulsar Play Store muestra el aviso de próxima disponibilidad. No se envía el código al servidor ni se habilita la descarga.
+En el flujo de Play Store, mientras `googlePlayAvailable` sea `false`, ingresar un código o pulsar Play Store muestra el aviso de próxima disponibilidad. No se envía el código al servidor ni se habilita ese enlace. El APK directo sigue disponible en modalidad pública.
 
 ## Habilitar Play Store en modalidad beta
 
@@ -84,8 +85,9 @@ claudio.villagran.quiroz@conomic.app
 - Amarillo de marca: `#FDDF21`.
 - Verde de marca: `#27AE60`.
 - Naranja de marca: `#FDA302`.
-- Los gradientes y fondos suaves se derivan de esos colores; el texto y los fondos también utilizan neutros.
-- Fredoka Bold y Nunito Bold están incrustadas como WOFF2, junto con sus licencias.
+- Verde del botón: `#178247`, con texto blanco. El tono de marca se conserva como variable.
+- Los fondos suaves se combinan con neutros y textos oscuros para mejorar la lectura.
+- Fredoka Bold y Nunito Bold se sirven desde `assets/fonts/` como WOFF2; sus licencias se conservan en `licenses/`. Usar exclusivamente Fredoka Bold (700) para títulos, marca y la etiqueta «Beta cerrada», y Nunito Bold (700) para textos, botones y etiquetas.
 - `assets/source/mico.svg` conserva la mascota original. El SVG que muestra la página está incrustado en el HTML.
 - CSS y JavaScript se editan en sus archivos dentro de `assets/`.
 
