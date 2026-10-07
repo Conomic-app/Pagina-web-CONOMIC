@@ -201,10 +201,8 @@ h1 { font-size: clamp(27px, 6.6vw, 32px); line-height: 1.15; letter-spacing: -.5
 .field-error { margin-top: 6px; color: #a62323; font-size: 13px; }
 .privacy-note { margin: 16px auto 0; max-width: 38ch; color: var(--muted); font-size: 12px; text-align: center; }
 .signup-success { padding: 16px 0 4px; text-align: center; }
-.success-emblem { position: relative; display: grid; place-items: center; width: 80px; height: 80px; margin: 4px auto 24px; border: 5px solid #fff; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 8px #fddf2126; color: var(--green-dark); font-size: 42px; }
-.success-star { position: absolute; color: var(--orange); font-size: 28px; }
-.star-one { top: -12px; right: -24px; }
-.star-two { bottom: 0; left: -28px; font-size: 20px; }
+.success-emblem { width: 100px; height: 100px; margin: 4px auto 24px; }
+.success-emblem svg { display: block; width: 100%; height: 100%; }
 .success-kicker { color: var(--green-dark); font-size: 13px; }
 .signup-success h2 { margin: 8px 0 14px; font-family: "Fredoka", sans-serif; font-size: clamp(27px, 7vw, 34px); line-height: 1.2; }
 #success-message { color: var(--muted); font-size: 15px; line-height: 1.7; overflow-wrap: anywhere; }
