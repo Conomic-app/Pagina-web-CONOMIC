@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#fddf21">
-  <meta name="description" content="Prueba la beta de CONOMIC para Android. Descarga la app, consulta cómo instalarla y comparte tu experiencia.">
-  <title>CONOMIC · Prueba la beta para Android</title>
+  <meta name="description" content="Solicita acceso a la beta de CONOMIC. Déjanos tu correo y te contactaremos con tu invitación.">
+  <title>CONOMIC · Solicita acceso a la beta</title>
   <link rel="preload" href="assets/fonts/fredoka-bold.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/nunito-bold.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/styles.css?v=714a1f2222">
+  <link rel="stylesheet" href="assets/css/styles.css?v=signup-2">
 </head>
 <body>
   <a class="skip-link" href="#download-area">Ir a la descarga</a>
@@ -80,84 +80,66 @@
     <div class="hero">
     <section class="introduction" aria-labelledby="welcome-title">
     <div class="welcome-copy">
-      <h1 id="welcome-title">Bienvenido a la beta de <span class="title-brand">CONOMIC</span></h1>
-      <p class="welcome-text">Prueba CONOMIC y ayúdanos a mejorar con tu experiencia.</p>
+      <h1 id="welcome-title">Sé parte de la beta de <span class="title-brand">CONOMIC</span></h1>
+      <p class="welcome-text">Da el primer paso para ser parte de CONOMIC. Solicita tu invitación y te avisaremos por correo cuando tu acceso esté listo.</p>
     </div>
     </section>
 
-    <section class="welcome-card" id="download-area" tabindex="-1" aria-label="Descarga de la beta de CONOMIC">
-      <p class="download-intro" hidden></p>
-
-      <section id="apk-download" aria-label="Descarga para Android">
-        <a class="download-button apk-button" id="apk-link" href="assets/downloads/conomic-release.apk" download="conomic-release.apk" aria-describedby="apk-details apk-compatibility">
-          <svg class="download-icon" viewBox="0 0 32 34" fill="none" aria-hidden="true">
-            <path d="M16 5v15m-6-6 6 6 6-6M5 24v2a4 4 0 0 0 4 4h14a4 4 0 0 0 4-4v-2" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span>Descargar para Android</span>
-        </a>
-        <p class="apk-details" id="apk-details">APK · 80,5 MB · Versión 1.0.0</p>
-        <p class="apk-compatibility" id="apk-compatibility">Android 7.0 o superior. No compatible con iPhone o iPad.</p>
-        <details class="installation-guide">
-          <summary>Cómo instalar CONOMIC</summary>
-          <ol>
-            <li>Descarga el APK desde esta página en tu teléfono Android.</li>
-            <li>Abre <strong>conomic-release.apk</strong> desde las descargas del navegador o la aplicación Archivos.</li>
-            <li>Si Android solicita permiso, permite instalar aplicaciones desde el navegador o la aplicación con la que abriste el archivo.</li>
-            <li>Pulsa <strong>Instalar</strong> y, al terminar, abre CONOMIC. Puedes desactivar después el permiso para instalar aplicaciones de esa fuente.</li>
-          </ol>
-          <p>Los nombres de las opciones pueden variar según el teléfono. Si aparece un bloqueo de seguridad, escríbenos indicando el mensaje.</p>
-        </details>
-        <p class="installation-help">¿Necesitas ayuda? <a href="#help-title">Contáctanos</a></p>
-      </section>
-
-      <form class="access-form" id="access-form" hidden method="post" novalidate>
-        <div class="code-panel" hidden>
-          <label class="code-label" for="access-code">
-            <svg class="lock-icon" viewBox="0 0 24 28" fill="none" aria-hidden="true">
-              <path d="M6 11V8a6 6 0 0 1 12 0v3" stroke="currentColor" stroke-width="2.6"/>
-              <rect x="2" y="10" width="20" height="17" rx="3" fill="currentColor"/>
-              <circle cx="12" cy="17" r="2" fill="white"/><path d="M12 18v4" stroke="white" stroke-width="2.2"/>
-            </svg>
-            Ingresa el código de acceso
-          </label>
-          <input class="code-input" id="access-code" name="code" type="text" placeholder="Código de acceso" autocomplete="off" autocapitalize="off" spellcheck="false" required disabled aria-describedby="download-status">
+    <section class="welcome-card" aria-label="Solicitud de acceso a la beta">
+      <div id="signup-options">
+      <form id="manual-form" class="manual-form" novalidate>
+        <div class="form-field">
+          <label class="code-label" for="manual-name">Tu nombre</label>
+          <input class="code-input" id="manual-name" name="name" type="text" autocomplete="name" placeholder="¿Cómo te llamas?" required maxlength="100" aria-describedby="name-error">
+          <p class="field-error" id="name-error" hidden></p>
         </div>
-        <button class="download-button" id="download-button" type="submit" disabled>
-          <svg class="download-icon" viewBox="0 0 32 34" fill="none" aria-hidden="true">
-            <path d="M16 3v17m-7-7 7 7 7-7M3 23v7h26v-7" stroke="currentColor" stroke-width="3.7" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span class="button-label" id="download-label">Descarga próximamente</span>
-          <svg class="chevron" viewBox="0 0 12 22" fill="none" aria-hidden="true"><path d="m3 3 7 8-7 8" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <p class="download-status" id="download-status" role="status" aria-live="polite" aria-atomic="true" hidden></p>
-        <noscript><p class="download-status">Puedes descargar el APK con el botón de Android.</p></noscript>
+        <div class="form-field">
+          <label class="code-label" for="manual-email">Tu correo electrónico</label>
+          <input class="code-input" id="manual-email" name="email" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="tu@correo.com" required maxlength="254" aria-describedby="email-error">
+          <p class="field-error" id="email-error" hidden></p>
+        </div>
+        <button class="download-button" id="manual-submit" type="submit">Quiero ser parte de la beta</button>
       </form>
+      <div class="signup-divider"><span>o continúa con Google</span></div>
+      <div class="access-form" id="google-access">
 
-      <p class="availability" id="stores-label" hidden>Próximamente en:</p>
-      <div class="stores" aria-labelledby="stores-label" hidden>
-        <!-- Marcadores: configurar los enlaces en CONFIG o recibirlos del servidor. -->
-        <a class="store-link" id="google-play" href="#download-status" aria-label="CONOMIC en Play Store, próximamente" aria-disabled="true" target="_blank" rel="noopener noreferrer">
-          <svg class="store-icon" viewBox="0 0 28 32" aria-hidden="true">
-            <path d="M1 1.5 17 16 1 30.5Z" fill="#24d1db"/>
-            <path d="m1 1.5 20 11.3L17 16Z" fill="#34e977"/>
-            <path d="m17 16 4 3.2L1 30.5Z" fill="#f44169"/>
-            <path d="m21 12.8 5 2.8a.5.5 0 0 1 0 .8l-5 2.8-4-3.2Z" fill="#ffcf37"/>
-          </svg>
-          <span class="store-copy"><span class="store-kicker" id="store-kicker">GOOGLE</span><span class="store-name">Play Store</span></span>
-        </a>
+        <button class="download-button google-button" id="google-signin" type="button">
+          <span class="google-mark" aria-hidden="true">G</span>
+          <span>Continuar con Google</span>
+        </button>
+        <div id="google-profile" hidden>
+          <p class="profile-name" id="profile-name"></p>
+          <p class="email-note" id="profile-email"></p>
+          <button class="download-button" id="beta-submit" type="button">Solicitar acceso a la beta</button>
+          <button class="account-switch" id="google-signout" type="button">Cambiar cuenta</button>
+        </div>
+
+
+
       </div>
-
-      <p class="beta-note">Estamos en etapa de pruebas. Algunas funciones pueden cambiar mientras seguimos mejorando.</p>
+      <p class="privacy-note">Tu nombre y correo se usarán para gestionar tu invitación a CONOMIC.</p>
+      <noscript><p class="email-note">Para solicitar tu invitación, escríbenos al correo de contacto.</p></noscript>
+      </div>
+      <section class="signup-success" id="signup-success" aria-labelledby="success-title" hidden>
+        <div class="success-emblem" aria-hidden="true">✓<span class="success-star star-one">✦</span><span class="success-star star-two">✦</span></div>
+        <p class="success-kicker">¡Un gran primer paso!</p>
+        <h2 id="success-title" tabindex="-1">¡Felicitaciones!</h2>
+        <p id="success-message"></p>
+        <div class="success-next"><strong>¿Qué sigue ahora?</strong><p>Te escribiremos cuando tu invitación esté lista. El acceso a la beta se habilitará más adelante.</p></div>
+        <p class="success-thanks">Gracias por ayudarnos a construir CONOMIC 💛</p>
+      </section>
+      <p class="download-status" id="beta-status" role="status" aria-live="polite" aria-atomic="true" hidden></p>
+      <p class="beta-note" id="beta-note">El acceso se habilitará por invitación. Solicitar una invitación no activa el acceso de inmediato.</p>
     </section>
     </div>
 
     <footer class="support-section">
       <div class="feedback-block">
-      <h2>Tu opinión cuenta</h2>
-      <p>Cada comentario nos ayuda a construir una mejor app.</p>
+      <h2>Construyamos CONOMIC juntos</h2>
+      <p>¿Tienes alguna sugerencia antes de participar? Nos encantaría conocerla.</p>
       <a class="feedback-link" id="feedback-link" href="mailto:claudio.villagran.quiroz@conomic.app" target="_blank" rel="noopener noreferrer">
         <svg class="feedback-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M28 15a12 12 0 0 1-16.7 11L3 29l2.6-8.2A12 12 0 1 1 28 15Z" stroke="currentColor" stroke-width="2.7" stroke-linejoin="round"/></svg>
-        <span class="button-label">Cuéntanos tu experiencia</span>
+        <span class="button-label">Envíanos una sugerencia</span>
         <svg class="chevron" viewBox="0 0 12 22" fill="none" aria-hidden="true"><path d="m3 3 7 8-7 8" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
       </div>
@@ -172,7 +154,8 @@
     </footer>
   </main>
 
-  <script src="assets/js/config.js?v=8f3d92a73f" defer></script>
-  <script src="assets/js/app.js?v=9932e68f01" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+  <script src="assets/js/config.js?v=supabase-1" defer></script>
+  <script src="assets/js/app.js?v=signup-2" defer></script>
 </body>
 </html>

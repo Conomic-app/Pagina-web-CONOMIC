@@ -1,193 +1,172 @@
 "use strict";
+const config = window.CONOMIC_CONFIG;
+const signInButton = document.getElementById("google-signin");
+const signOutButton = document.getElementById("google-signout");
+const submitButton = document.getElementById("beta-submit");
+const profile = document.getElementById("google-profile");
+const status = document.getElementById("beta-status");
+const manualForm = document.getElementById("manual-form");
+const manualSubmit = document.getElementById("manual-submit");
+const nameInput = document.getElementById("manual-name");
+const emailInput = document.getElementById("manual-email");
+let client;
+let busy = false;
+function showStatus(message, state = "info") {
+  status.textContent = message;
+  status.dataset.state = state;
+  status.hidden = false;
+}
+function setBusy(value) {
+  busy = value;
+  for (const button of [signInButton, signOutButton, submitButton, manualSubmit]) button.disabled = value;
+  nameInput.readOnly = value;
+  emailInput.readOnly = value;
+  document.getElementById("google-access").setAttribute("aria-busy", String(value));
+}
+function renderUser(user) {
+  signInButton.hidden = Boolean(user);
+  profile.hidden = !user;
+  submitButton.hidden = false;
+  if (!user) return;
+  document.getElementById("profile-name").textContent = user.user_metadata?.full_name || user.user_metadata?.name || "Tu cuenta de Google";
+  document.getElementById("profile-email").textContent = user.email || "";
+}
+async function initialize() {
+  if (!["http:", "https:"].includes(location.protocol)) {
 
-    const CONFIG = window.CONOMIC_CONFIG;
-
-    const form = document.getElementById("access-form");
-    const codeInput = document.getElementById("access-code");
-    const downloadButton = document.getElementById("download-button");
-    const downloadLabel = document.getElementById("download-label");
-    const status = document.getElementById("download-status");
-    const googlePlay = document.getElementById("google-play");
-    const storesLabel = document.getElementById("stores-label");
-    const storeKicker = document.getElementById("store-kicker");
-    const feedback = document.getElementById("feedback-link");
-    let pendingRequest = null;
-    codeInput.disabled = false;
-    downloadButton.disabled = false;
-    if (CONFIG.googlePlayAvailable) {
-      storesLabel.textContent = "Disponible para:";
-      storeKicker.textContent = "DISPONIBLE EN";
-      googlePlay.setAttribute("aria-label", "Descargar CONOMIC en Play Store");
-    }
-
-    function showStatus(message, state = "info") {
-      status.textContent = message;
-      status.dataset.state = state;
-      status.hidden = false;
-    }
-
-    function httpsUrl(value) {
-      try {
-        const url = new URL(value);
-        return url.protocol === "https:" && !url.username && !url.password ? url.href : null;
-      } catch {
-        return null;
-      }
-    }
-
-    function lockStores() {
-      googlePlay.href = "#REEMPLAZAR_URL_GOOGLE_PLAY";
-      googlePlay.setAttribute("aria-disabled", "true");
-    }
-
-    function setBusy(busy) {
-      downloadButton.disabled = busy;
-      codeInput.readOnly = busy;
-      form.setAttribute("aria-busy", String(busy));
-      downloadLabel.textContent = busy ? "Verificando tu acceso…" : "Descargar CONOMIC";
-    }
-
-    if (CONFIG.accessMode === "public") {
-      document.querySelector(".code-panel").hidden = true;
-      codeInput.required = false;
-      codeInput.disabled = true;
-      const apkSection = document.getElementById("apk-download");
-      const apkLink = document.getElementById("apk-link");
-      // Las rutas relativas conservan el subdirectorio del sitio (por ejemplo GitHub Pages).
-      let apkUrl = null;
-      try {
-        const candidate = new URL(CONFIG.apkUrl, document.baseURI);
-        if (CONFIG.apkUrl && !candidate.username && !candidate.password &&
-            (candidate.protocol === "https:" || candidate.origin === new URL(document.baseURI).origin && ["http:", "file:"].includes(candidate.protocol))) apkUrl = candidate.href;
-      } catch {}
-      apkSection.hidden = !apkUrl;
-      form.hidden = Boolean(apkUrl);
-      document.querySelector(".stores").hidden = Boolean(apkUrl);
-      storesLabel.hidden = Boolean(apkUrl);
-      if (apkUrl) apkLink.href = apkUrl;
-      const downloadUrl = httpsUrl(CONFIG.googlePlayUrl);
-      if (CONFIG.googlePlayAvailable && downloadUrl) {
-        googlePlay.href = downloadUrl;
-        googlePlay.removeAttribute("aria-disabled");
-        showStatus("Descarga disponible en Google Play.", "success");
-      } else {
-        downloadLabel.textContent = "Descarga próximamente";
-        downloadButton.disabled = true;
-        showStatus("Estamos preparando la descarga de CONOMIC. Pronto encontrarás aquí el enlace oficial.");
-      }
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        if (CONFIG.googlePlayAvailable && downloadUrl) window.location.assign(downloadUrl);
-      });
-      googlePlay.addEventListener("click", (event) => {
-        if (googlePlay.getAttribute("aria-disabled") === "true") {
-          event.preventDefault();
-          showStatus("La descarga todavía no está disponible. Puedes contactarnos por correo.");
-        }
-      });
-    } else {
-      document.getElementById("apk-download").hidden = true;
-      form.hidden = false;
-      document.querySelector(".stores").hidden = false;
-      storesLabel.hidden = false;
-      document.querySelector(".code-panel").hidden = false;
-      document.querySelector(".download-intro").textContent = "Ingresa el código de tu invitación para acceder a la beta.";
-      document.querySelector(".download-intro").hidden = false;
-      downloadLabel.textContent = "Descargar CONOMIC";
-    codeInput.addEventListener("input", () => {
-      lockStores();
-      pendingRequest?.abort();
-      codeInput.removeAttribute("aria-invalid");
-      status.hidden = true;
-      status.textContent = "";
+    signInButton.disabled = true;
+    return;
+  }
+  try {
+    if (!window.supabase) throw new Error("SDK unavailable");
+    client = window.supabase.createClient(config.supabaseUrl, config.supabasePublishableKey, {
+      auth: { flowType: "pkce", detectSessionInUrl: true, persistSession: true }
     });
-
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      if (pendingRequest) return;
-      lockStores();
-      const code = codeInput.value.trim();
-      if (!code) {
-        codeInput.setAttribute("aria-invalid", "true");
-        showStatus("Ingresa el código de acceso que recibiste en tu invitación.");
-        codeInput.focus();
-        return;
-      }
-      codeInput.removeAttribute("aria-invalid");
-      if (!CONFIG.googlePlayAvailable) {
-        showStatus("CONOMIC estará disponible próximamente en Play Store.");
-        return;
-      }
-      if (!CONFIG.validationEndpoint) {
-        showStatus("La descarga aún no está disponible. Escríbenos y te ayudamos.");
-        return;
-      }
-
-      const controller = new AbortController();
-      pendingRequest = controller;
-      const timeout = setTimeout(() => controller.abort(), 15000);
-      setBusy(true);
-      showStatus("Estamos verificando tu código de acceso.");
-      try {
-        const response = await fetch(CONFIG.validationEndpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          credentials: "same-origin",
-          cache: "no-store",
-          body: JSON.stringify({ code }),
-          signal: controller.signal
-        });
-        if (response.status === 401 || response.status === 403) {
-          codeInput.setAttribute("aria-invalid", "true");
-          showStatus("No pudimos confirmar tu código. Revísalo o escríbenos para ayudarte.");
-          codeInput.focus();
-          return;
-        }
-        if (response.status === 429) {
-          showStatus("Has intentado varias veces. Espera un momento y vuelve a probar.");
-          return;
-        }
-        if (!response.ok) throw new Error("Access service unavailable");
-        const result = await response.json();
-        if (result?.authorized !== true) {
-          codeInput.setAttribute("aria-invalid", "true");
-          showStatus("No pudimos confirmar tu código. Revísalo o escríbenos para ayudarte.");
-          codeInput.focus();
-          return;
-        }
-        if (controller.signal.aborted) return;
-        const googleUrl = httpsUrl(result.stores?.googlePlay || CONFIG.googlePlayUrl);
-        if (!googleUrl) throw new Error("Download link unavailable");
-        googlePlay.href = googleUrl;
-        googlePlay.removeAttribute("aria-disabled");
-        showStatus("¡Listo! Descarga CONOMIC en Play Store.", "success");
-        googlePlay.focus({ preventScroll: true });
-        googlePlay.scrollIntoView({ block: "nearest", behavior: "instant" });
-      } catch {
-        showStatus("No pudimos conectar para habilitar la descarga. Vuelve a intentarlo o escríbenos.");
-      } finally {
-        clearTimeout(timeout);
-        pendingRequest = null;
-        setBusy(false);
+    const { data: { session }, error } = await client.auth.getSession();
+    if (error) throw error;
+    if (session) {
+      const { data: { user }, error: userError } = await client.auth.getUser();
+      if (userError) throw userError;
+      renderUser(user);
+    }
+    const params = new URLSearchParams(location.search);
+    if (params.has("error")) showStatus("No se completó el inicio de sesión. Puedes volver a intentarlo.");
+    if (params.has("code") || params.has("error")) history.replaceState(null, "", location.pathname);
+  } catch {
+    showStatus("Puedes solicitar tu invitación con nombre y correo. Google no está disponible en este momento.");
+    signInButton.disabled = true;
+  }
+}
+signInButton.addEventListener("click", async () => {
+  if (!client || busy) return;
+  setBusy(true);
+  showStatus("Te llevaremos a Google para elegir tu cuenta.");
+  try {
+    const { error } = await client.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: new URL(location.pathname, location.origin).href,
+        scopes: "openid email profile",
+        queryParams: { prompt: "select_account" }
       }
     });
+    if (error) throw error;
+  } catch {
+    showStatus("No pudimos continuar con Google. Inténtalo de nuevo o regístrate con tu correo.");
+    setBusy(false);
+  }
+});
+signOutButton.addEventListener("click", async () => {
+  if (!client || busy) return;
+  setBusy(true);
+  try {
+    const { error } = await client.auth.signOut({ scope: "local" });
+    if (error) throw error;
+    renderUser(null);
+    status.hidden = true;
+  } catch { showStatus("No pudimos cambiar de cuenta. Vuelve a intentarlo."); }
+  finally { setBusy(false); }
+});
+submitButton.addEventListener("click", async () => {
+  if (!client || busy) return;
+  setBusy(true);
+  submitButton.textContent = "Guardando solicitud…";
+  showStatus("Estamos guardando tu solicitud.");
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+  try {
+    // El servidor obtiene nombre y correo de la cuenta autenticada.
+    const { error } = await client.rpc("request_beta_access").abortSignal(controller.signal);
+    if (error) throw error;
+    showSuccess(document.getElementById("profile-name").textContent);
+  } catch {
+    showStatus("No pudimos confirmar tu solicitud. Inténtalo de nuevo o escríbenos al correo de contacto.");
+  } finally {
+    clearTimeout(timeout);
+    setBusy(false);
+    submitButton.textContent = "Solicitar acceso a la beta";
+  }
+});
 
-    for (const link of [googlePlay]) {
-      link.addEventListener("click", (event) => {
-        if (link.getAttribute("aria-disabled") !== "true") return;
-        event.preventDefault();
-        if (pendingRequest) return;
-        if (!CONFIG.googlePlayAvailable) {
-          showStatus("CONOMIC estará disponible próximamente en Play Store.");
-          return;
-        }
-        showStatus("Ingresa tu código y toca “Descargar CONOMIC” para habilitar Play Store.");
-        codeInput.focus();
-      });
-    }
 
-    }
-
-    const feedbackUrl = httpsUrl(CONFIG.feedbackUrl);
-    if (feedbackUrl) feedback.href = feedbackUrl;
-    if (!feedbackUrl) feedback.href = "mailto:claudio.villagran.quiroz@conomic.app?subject=Mi%20experiencia%20con%20CONOMIC";
+function showSuccess(name) {
+  document.getElementById("signup-options").hidden = true;
+  document.getElementById("beta-note").hidden = true;
+  status.hidden = true;
+  const greeting = name.trim().split(/\s+/)[0];
+  document.getElementById("success-message").textContent = `${greeting}, recibimos tu solicitud para ser parte de la beta. Nos alegra que quieras acompañarnos desde el comienzo.`;
+  document.getElementById("signup-success").hidden = false;
+  document.getElementById("success-title").focus({ preventScroll: true });
+}
+for (const [input, errorId] of [[nameInput, "name-error"], [emailInput, "email-error"]]) {
+  input.addEventListener("input", () => {
+    input.removeAttribute("aria-invalid");
+    document.getElementById(errorId).hidden = true;
+    status.hidden = true;
+  });
+}
+manualForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  if (busy) return;
+  nameInput.value = nameInput.value.trim();
+  emailInput.value = emailInput.value.trim();
+  let firstInvalid;
+  for (const [input, errorId, message] of [
+    [nameInput, "name-error", "Cuéntanos tu nombre para darte la bienvenida."],
+    [emailInput, "email-error", "Revisa tu correo electrónico. Por ejemplo: tu@correo.com."]
+  ]) {
+    const invalid = !input.validity.valid;
+    const error = document.getElementById(errorId);
+    error.hidden = !invalid;
+    if (invalid) {
+      input.setAttribute("aria-invalid", "true");
+      error.textContent = message;
+      firstInvalid ||= input;
+    } else input.removeAttribute("aria-invalid");
+  }
+  if (firstInvalid) { firstInvalid.focus(); return; }
+  setBusy(true);
+  manualSubmit.textContent = "Enviando tu solicitud…";
+  showStatus("Estamos recibiendo tu solicitud.");
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+  try {
+    const response = await fetch(new URL("/rest/v1/rpc/request_beta_access_manual", config.supabaseUrl), {
+      method: "POST",
+      headers: { apikey: config.supabasePublishableKey, "Content-Type": "application/json" },
+      credentials: "omit", cache: "no-store",
+      body: JSON.stringify({ applicant_name: nameInput.value, applicant_email: emailInput.value.toLowerCase() }),
+      signal: controller.signal
+    });
+    if (!response.ok) throw new Error("Request unavailable");
+    showSuccess(nameInput.value);
+    manualForm.reset();
+  } catch {
+    showStatus("No pudimos confirmar tu solicitud. Inténtalo de nuevo en unos momentos o escríbenos y te ayudamos.");
+  } finally {
+    clearTimeout(timeout);
+    setBusy(false);
+    manualSubmit.textContent = "Quiero ser parte de la beta";
+  }
+});
+initialize();

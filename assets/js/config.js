@@ -1,10 +1,7 @@
 "use strict";
-// Configuración pública. No incluir contraseñas, claves ni códigos de acceso.
+// Solo valores públicos. Nunca añadir claves secret o service_role.
 window.CONOMIC_CONFIG = Object.freeze({
-  accessMode: "public", // "public" para todos; "beta" para validar invitaciones.
-  apkUrl: "assets/downloads/conomic-release.apk",
-  googlePlayAvailable: false, // Activar cuando exista un enlace real de descarga.
-  googlePlayUrl: "",
-  validationEndpoint: "", // Solo para beta: endpoint POST que valida el código.
-  feedbackUrl: ""
+  supabaseUrl: "https://ygvikhitjeepnqjtmlns.supabase.co",
+  supabasePublishableKey: "sb_publishable__y8ehd_Z6JoSxZG6zud9IA_ClQhZ9gi",
+  supabaseTable: "beta_requests"
 });

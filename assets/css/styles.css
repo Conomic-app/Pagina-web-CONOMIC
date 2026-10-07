@@ -180,3 +180,36 @@ h1 { font-size: clamp(27px, 6.6vw, 32px); line-height: 1.15; letter-spacing: -.5
   .wordmark, .title-brand { color: CanvasText; }
   .page-pattern { display: none; }
 }
+/* Solicitud de acceso a la beta. */
+#beta-form { margin-top: 0; }
+.email-note { margin-top: 10px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+/* Acceso con Google. */
+.google-button { background: #fff; border-color: var(--line); color: var(--ink); box-shadow: none; }
+.google-button:hover { background: var(--mint); border-color: var(--green-dark); }
+.google-mark { color: #4285f4; font: 700 24px Arial, sans-serif; }
+.profile-name { margin-top: 16px; font-size: 18px; text-align: center; overflow-wrap: anywhere; }
+#profile-email { text-align: center; overflow-wrap: anywhere; }
+.account-switch { display: block; min-height: 44px; margin: 10px auto 0; padding: 8px 16px; border: 0; background: transparent; color: var(--green-dark); text-decoration: underline; cursor: pointer; }
+/* Formulario y bienvenida: paleta y tipografías de CONOMIC. */
+.signup-divider { display: flex; align-items: center; gap: 12px; margin: 24px 0; color: var(--muted); font-size: 13px; text-align: center; }
+.signup-divider::before, .signup-divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.form-field + .form-field { margin-top: 18px; }
+.manual-form .code-label { margin-bottom: 8px; }
+.manual-form .code-input { min-height: 52px; border-color: #bac6be; border-radius: 14px; padding: 12px 14px; }
+.manual-form .code-input:focus { border-color: var(--green-dark); outline: 3px solid #27ae6026; outline-offset: 2px; }
+.manual-form .code-input[aria-invalid="true"] { border-color: #a62323; }
+.field-error { margin-top: 6px; color: #a62323; font-size: 13px; }
+.privacy-note { margin: 16px auto 0; max-width: 38ch; color: var(--muted); font-size: 12px; text-align: center; }
+.signup-success { padding: 16px 0 4px; text-align: center; }
+.success-emblem { position: relative; display: grid; place-items: center; width: 80px; height: 80px; margin: 4px auto 24px; border: 5px solid #fff; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 8px #fddf2126; color: var(--green-dark); font-size: 42px; }
+.success-star { position: absolute; color: var(--orange); font-size: 28px; }
+.star-one { top: -12px; right: -24px; }
+.star-two { bottom: 0; left: -28px; font-size: 20px; }
+.success-kicker { color: var(--green-dark); font-size: 13px; }
+.signup-success h2 { margin: 8px 0 14px; font-family: "Fredoka", sans-serif; font-size: clamp(27px, 7vw, 34px); line-height: 1.2; }
+#success-message { color: var(--muted); font-size: 15px; line-height: 1.7; overflow-wrap: anywhere; }
+.success-next { margin-top: 24px; padding: 18px; border: 1px solid #dbeadd; border-radius: 18px; background: var(--mint); text-align: left; }
+.success-next strong { color: var(--green-dark); font-size: 15px; }
+.success-next p { margin-top: 6px; color: var(--muted); font-size: 14px; }
+.success-thanks { margin-top: 22px; color: var(--green-dark); font-size: 14px; }
+@media (prefers-reduced-motion: no-preference) { .signup-success { animation: content-enter .4s ease both; } }

@@ -1,41 +1,29 @@
-# CONOMIC · Página de descarga
+# CONOMIC · Solicitud de acceso a la beta
 
-Sitio estático diseñado para celulares, sin dependencias ni compilación.
+Sitio estático adaptable a celulares, sin compilación. Permite solicitar una invitación con nombre y correo o continuar con Google mediante Supabase Auth. Muestra una bienvenida personalizada únicamente después de guardar la solicitud.
+
+## Revisar en local
+
+Ejecuta `node scripts/serve-local.cjs` y abre http://localhost:3000/. El inicio de sesión con Google requiere HTTP o HTTPS.
+
+## Configurar Supabase
+
+La URL y clave pública están en `assets/js/config.js`. Ejecuta `supabase/beta_requests.sql` en SQL Editor y configura el proveedor Google y las URLs permitidas según `docs/solicitudes-beta.md`. Estas configuraciones externas siguen pendientes de verificación; subir el sitio no las realiza automáticamente.
+
+La tabla almacena correo, nombre, fecha, estado y usuario autenticado cuando corresponde. Las funciones permiten registrar solicitudes sin dar acceso público de lectura. Registrar una solicitud no concede acceso a la beta ni envía invitaciones automáticamente.
 
 ## Archivos
 
-- index.html: contenido y estructura.
-- assets/css/styles.css: diseño y estilos adaptables.
-- assets/fonts/: fuentes WOFF2 locales, con licencias en licenses/.
-- assets/js/config.js: enlaces y modalidad de acceso.
-- assets/js/app.js: descarga, disponibilidad y validación de beta.
-- assets/source/mico.svg: mascota original.
-- licenses/: licencias de las fuentes.
+- `index.html`: contenido y formularios.
+- `assets/css/styles.css`: diseño y estilos.
+- `assets/js/app.js`: validación, Google, solicitudes y confirmación.
+- `assets/js/config.js`: configuración pública de Supabase.
+- `supabase/beta_requests.sql`: tabla, permisos y funciones.
+- `assets/fonts/` y `licenses/`: fuentes locales y licencias.
+- `docs/solicitudes-beta.md`: configuración y pruebas del flujo.
 
-## Configurar la descarga
+## Publicación
 
-Edita assets/js/config.js. El modo public permite descargar sin código. Configura googlePlayUrl con el enlace HTTPS oficial y cambia googlePlayAvailable a true cuando la aplicación esté disponible. Sin enlace válido, la descarga permanece deshabilitada.
+Publica index.html y assets/ en un alojamiento estático HTTPS. El dominio configurado en CNAME es conomic.app. La clave publishable es pública; nunca publiques claves secret, service_role ni el secreto OAuth de Google.
 
-Para una beta con invitación, usa accessMode: "beta" y configura un servidor de validación. Consulta docs/configuracion.md.
-
-## Revisar y publicar
-
-Abre index.html en un navegador para revisar la página. Para que cualquier persona pueda acceder, publica toda la carpeta del sitio en un alojamiento estático con HTTPS, por ejemplo GitHub Pages. Hacer público el repositorio no publica automáticamente la página.
-
-En GitHub Pages, configura Settings > Pages > Deploy from a branch > main > /(root). La dirección esperada será https://conomic-app.github.io/Pagina-web-CONOMIC/ una vez habilitado el servicio. No se ha configurado ni verificado la publicación desde este proyecto.
-
-Conserva las rutas relativas y publica también assets/. No necesitas un servidor para la descarga pública desde Google Play; la modalidad beta sí requiere un backend.
-
-## APK de Android
-
-La descarga actual utiliza assets/downloads/conomic-release.apk (80,5 MB). El botón es un enlace directo y funciona sin JavaScript. Publica también esta carpeta. Para actualizar la app, reemplaza el APK, comprueba su tamaño y actualiza el texto de index.html. apkUrl en assets/js/config.js debe coincidir con el enlace del HTML.
-
-La versión 1.0.0 y el requisito mínimo Android 7.0 (API 24) se verificaron en el manifiesto del APK. Actualiza también estos datos al reemplazarlo. No se publica una fecha de lanzamiento sin confirmar.
-
-## Diseño responsive
-
-La página está orientada a celulares y conserva una sola columna, con un ancho máximo de 440 px, incluso si se abre en una pantalla más amplia. No bloquea el acceso desde computadores. Mantiene el amarillo de marca; los botones utilizan un verde más oscuro para mejorar el contraste del texto blanco. La tipografía utiliza exclusivamente Fredoka Bold (700) para títulos, marca y la etiqueta «Beta cerrada», y Nunito Bold (700) para textos, botones y etiquetas. Ambas fuentes se cargan desde archivos locales. Incluye foco visible, un enlace para saltar a la descarga y controles de al menos 44 px de alto.
-
-La etiqueta «Beta cerrada» describe la etapa de la app y no restringe el archivo. El APK sigue siendo accesible mediante su enlace directo. Un acceso exclusivo requiere validación y entrega del archivo desde un servidor protegido; cambiar la etiqueta o esconder el botón no lo implementa.
-
-El fondo utiliza tonos crema y amarillo con un patrón decorativo más visible. El contenido aparece suavemente, Mico hace dos movimientos de bienvenida y los botones responden al toque. Las animaciones respetan `prefers-reduced-motion`, no cambian la distribución y no requieren JavaScript adicional.
+El APK anterior permanece en assets/downloads pero ya no se muestra un botón para descargarlo. Si se publica ese archivo, su URL sigue siendo pública. Para restringir su distribución se necesita almacenamiento privado o un servicio de beta con invitación.
