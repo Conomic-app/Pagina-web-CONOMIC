@@ -11,6 +11,9 @@ const nameInput = document.getElementById("manual-name");
 const emailInput = document.getElementById("manual-email");
 let client;
 let busy = false;
+function isGmail(email) {
+  return /^[^@\s]+@gmail\.com$/i.test(email || "");
+}
 function showStatus(message, state = "info") {
   status.textContent = message;
   status.dataset.state = state;
@@ -89,6 +92,10 @@ signOutButton.addEventListener("click", async () => {
 });
 submitButton.addEventListener("click", async () => {
   if (!client || busy) return;
+  if (!isGmail(document.getElementById("profile-email").textContent)) {
+    showStatus("Para solicitar la beta, usa una cuenta @gmail.com. Pulsa Cambiar cuenta para elegirla.");
+    return;
+  }
   setBusy(true);
   submitButton.textContent = "Guardando solicitud…";
   showStatus("Estamos guardando tu solicitud.");
@@ -129,11 +136,11 @@ manualForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (busy) return;
   nameInput.value = nameInput.value.trim();
-  emailInput.value = emailInput.value.trim();
+  emailInput.value = emailInput.value.trim().toLowerCase();
   let firstInvalid;
   for (const [input, errorId, message] of [
     [nameInput, "name-error", "Cuéntanos tu nombre para darte la bienvenida."],
-    [emailInput, "email-error", "Revisa tu correo electrónico. Por ejemplo: tu@correo.com."]
+    [emailInput, "email-error", "Ingresa un correo terminado en @gmail.com. Por ejemplo: tu@gmail.com."]
   ]) {
     const invalid = !input.validity.valid;
     const error = document.getElementById(errorId);

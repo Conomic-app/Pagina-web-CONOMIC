@@ -31,6 +31,9 @@ begin
      or not exists (select 1 from auth.identities where user_id = account.id and provider = 'google') then
     raise exception 'A verified Google account is required' using errcode = '42501';
   end if;
+  if lower(trim(account.email)) !~ '^[^[:space:]@]+@gmail\.com$' then
+    raise exception 'A Gmail address is required' using errcode = '22023';
+  end if;
   insert into public.beta_requests(email, full_name, user_id)
   values (
     lower(trim(account.email)),
@@ -57,7 +60,7 @@ declare
 begin
   if clean_name is null or char_length(clean_name) not between 1 and 100
      or clean_email is null or char_length(clean_email) > 254
-     or clean_email !~ '^[^[:space:]@]+@[^[:space:]@]+\.[^[:space:]@]+$' then
+     or clean_email !~ '^[^[:space:]@]+@gmail\.com$' then
     raise exception 'Invalid request' using errcode = '22023';
   end if;
   insert into public.beta_requests(email, full_name)

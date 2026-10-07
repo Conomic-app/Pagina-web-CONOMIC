@@ -19,4 +19,6 @@ Documentación: https://supabase.com/docs/guides/auth/social-login/auth-google y
 
 ## Registro manual y bienvenida
 
+Solo se aceptan correos terminados en `@gmail.com`, tanto en el formulario manual como al solicitar acceso con Google. Debe usarse la cuenta con la que se entrará a la beta en Google Play. Para activar esta validación en el servidor, vuelve a ejecutar `supabase/beta_requests.sql` en Supabase > SQL Editor. Las solicitudes existentes se conservan.
+
 La página también ofrece nombre y correo sin iniciar sesión. Ejecutar el SQL actualizado crea request_beta_access_manual: valida campos y permite registrar solicitudes, pero no leer ni modificar las existentes. Un correo manual no está verificado; no debe usarse como prueba de identidad ni para otorgar permisos. La bienvenida aparece solo después de guardar, tanto con Google como con el formulario manual. Antes de publicar ampliamente, añadir protección contra automatización al registro público.

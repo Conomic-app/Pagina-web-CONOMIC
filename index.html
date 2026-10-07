@@ -94,8 +94,9 @@
           <p class="field-error" id="name-error" hidden></p>
         </div>
         <div class="form-field">
-          <label class="code-label" for="manual-email">Tu correo electrónico</label>
-          <input class="code-input" id="manual-email" name="email" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="tu@correo.com" required maxlength="254" aria-describedby="email-error">
+          <label class="code-label" for="manual-email">Tu correo Gmail</label>
+          <input class="code-input" id="manual-email" name="email" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="tu@gmail.com" pattern="[^@\s]+@gmail\.com" required maxlength="254" aria-describedby="email-help email-error">
+          <p class="email-note" id="email-help">Usa un correo @gmail.com de la cuenta con la que entrarás a la beta en Google Play.</p>
           <p class="field-error" id="email-error" hidden></p>
         </div>
         <button class="download-button" id="manual-submit" type="submit">Quiero ser parte de la beta</button>
@@ -158,6 +159,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
   <script src="assets/js/config.js?v=supabase-1" defer></script>
-  <script src="assets/js/app.js?v=signup-2" defer></script>
+  <script src="assets/js/app.js?v=signup-gmail-1" defer></script>
 </body>
 </html>
